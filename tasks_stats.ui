@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Tasks_stat</class>
+ <widget class="QWidget" name="Tasks_stat">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>424</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="1">
+      <widget class="QLabel" name="l_stats_undone">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="l_stats_done">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" rowspan="2">
+      <widget class="QTableView" name="tv_all_tasks"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QComboBox" name="cb_task_action">
+       <item>
+        <property name="text">
+         <string>Tasks actions</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Show all</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Show done</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Show undone</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Group by importanse</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pb_exit">
+       <property name="text">
+        <string>Exit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

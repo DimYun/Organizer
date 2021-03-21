@@ -1,0 +1,8 @@
+#!/bin/bash
+ln -fs ""../images/""$((((10#$(date +"%H"))-(10#$(date +"%H"))%10)/10))"".png"" images/current_hour1.png
+ln -fs ""../images/""$((((10#$(date +"%H"))%10)))"".png"" images/current_hour2.png
+ln -fs ""../images/""$((((10#$(date +"%M"))-(10#$(date +"%M"))%10)/10))"".png"" images/current_minute1.png
+ln -fs ""../images/""$((((10#$(date +"%M"))%10)))"".png"" images/current_minute2.png
+ln -fs ""../images/""$((((10#$(date +"%S"))-(10#$(date +"%S"))%10)/10))"".png"" images/current_second1.png
+ln -fs ""../images/""$((((10#$(date +"%S"))%10)))"".png"" images/current_second2.png
+ln -fs ""../images/dot_""$(((10#$(date +"%S")%2)))"".png"" images/current_dot.png

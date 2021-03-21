@@ -1,0 +1,19 @@
+Divergence Meter Clock by MakiseKuritorisu
+Thanks to Mrat for helping with some errors! Hopefully everything's working now!
+Release 3.
+
+Changes:
+- fixed some parentheses problem (thanks again Mrat, I trust you it's ok this time!! xD)
+- D-Mails shouldn't now cause nausea for people with Reading Steiner
+
+Installation:
+0. You need conky installed for the script to work! (Conky Manager is also helpful)
+1. Copy the DivergenceMeterClock folder (yes the one you're in now) into ~/.conky
+2. Add the script into Conky just like any other theme,
+3. El. Psy. Kongroo.
+
+The script *may* be slow on older computers because it's made in a kinda hacky way (symlinking 7 images every second).
+Something is broken? Message me on reddit or DeviantArt!
+
+
+

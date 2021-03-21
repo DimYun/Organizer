@@ -1,0 +1,79 @@
+# Divergence Meter Clock for Conky by makisekuritorisu, release 3
+# Thanks to Mrat for help with some bugs! 
+
+# Known bugs:
+# - none, but I'm sure there are some!
+
+#use_xft yes
+#xftfont cure:size=32
+
+own_window  yes
+own_window_transparent yes
+own_window_type desktop
+own_window_argb_value 255
+own_window_argb_visual yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+# reduces flickering, but slower
+double_buffer yes
+
+# Min size of text area
+minimum_size 650 230
+
+draw_shades no
+draw_outline no
+draw_borders no
+
+
+# Stippled borders?
+stippled_borders 0
+
+
+# border width
+border_width 0
+
+
+# Default colors and also border colors
+default_color 303030
+own_window_colour 000000
+
+
+# Text alignment, other possible values are commented
+alignment middle_middle
+#alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+
+
+# Gap between borders of screen and text
+# same thing as passing -x at command line
+gap_x 0
+gap_y 0
+
+
+# set to yes if you want all text to be in uppercase
+uppercase no
+
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale yes
+
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+use_spacer true
+
+#text_buffer_size 1000
+update_interval 1
+
+
+
+TEXT
+${exec scripts/update_time}
+${image images/current_hour1.png -p 0,0 -s 90x230 -n}
+${image images/current_hour2.png -p 80,0 -s 90x230 -n}
+${image images/current_dot.png -p 160,0 -s 90x230 -n}
+${image images/current_minute1.png -p 240,0 -s 90x230 -n}
+${image images/current_minute2.png -p 320,0 -s 90x230 -n}
+${image images/current_dot.png -p 400,0 -s 90x230 -n}
+${image images/current_second1.png -p 480,0 -s 90x230 -n}
+${image images/current_second2.png -p 560,0 -s 90x230 -n}
