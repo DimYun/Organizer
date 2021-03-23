@@ -23,10 +23,78 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QComboBox" name="cb_action">
+          <item>
+           <property name="text">
+            <string>Actions</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Save tasks</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Set budget</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Task stats</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Budget stats</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="l_nix">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCalendarWidget" name="calendarWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="locale">
+         <locale language="English" country="UnitedKingdom"/>
+        </property>
+        <property name="gridVisible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QTableView" name="tv_tasks"/>
+         <widget class="QTextEdit" name="te_tasks"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -93,15 +161,8 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="QPushButton" name="pb_save">
-        <property name="text">
-         <string>Save &amp; Exit</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
-       <widget class="QProgressBar" name="pb_live">
+       <widget class="QProgressBar" name="prb_live">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -117,79 +178,25 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QProgressBar" name="pb_tasks">
+       <widget class="QProgressBar" name="prb_tasks">
         <property name="value">
          <number>24</number>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="l_nix">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="pb_save">
         <property name="text">
-         <string>TextLabel</string>
+         <string>Save</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QCalendarWidget" name="calendarWidget">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="locale">
-         <locale language="English" country="UnitedKingdom"/>
-        </property>
-        <property name="gridVisible">
-         <bool>false</bool>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="pb_exit">
+        <property name="text">
+         <string>Exit</string>
         </property>
        </widget>
-      </item>
-      <item row="0" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QComboBox" name="cb_action">
-          <item>
-           <property name="text">
-            <string>Actions</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Save tasks</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Set budget</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Task stats</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Budget stats</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
       </item>
      </layout>
     </item>
