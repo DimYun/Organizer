@@ -29,7 +29,7 @@ COLORS = [
 class MainWindow(QtWidgets.QMainWindow):
     db_tasks = None
     db_down_tasks = None
-    daetime_format = 'dd-MM-yy HH:mm:ss'
+    daetime_format = 'dd-MM-yyyy HH:mm:ss'
 
     def __init__(self):
         super(QtWidgets.QMainWindow, self).__init__()
@@ -90,6 +90,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.pb_task_add.clicked.connect(self.task_add)
         self.pb_task_undo.clicked.connect(self.task_undo)
+        self.pb_export.clicked.connect(lambda x: self.export_import_task())
+        self.pb_import.clicked.connect(lambda x: self.export_import_task(is_import = True))
 
         self.pb_exit.clicked.connect(self.hide_it)
         self.pb_save.clicked.connect(self.save_data)
@@ -144,7 +146,7 @@ class MainWindow(QtWidgets.QMainWindow):
             QtCore.QDateTime(deadline_date.addDays(1)),
             'Describe the task',
             'Work/Project/Home',  # ['Work', 'Project', 'Home'],  type of task
-            '0, ..., 10',  # importance from 0 to 10, 0 - most important
+            '0 ... 10',  # importance from 0 to 10, 0 - most important
             'No'  # ['No', 'Yes'] is completed
         ]
         print('Len of db: ', len(list(self.db_tasks.keys())))
@@ -156,8 +158,10 @@ class MainWindow(QtWidgets.QMainWindow):
         :return: None
         """
         self.db_tasks = {}
-        unformat_data = self.te_tasks.toMarkdown().split('\n')
-        print(unformat_data)
+        unformat_data = self.te_tasks.toMarkdown()
+        # print(unformat_data)
+        unformat_data = unformat_data.split('\n')
+        # print(unformat_data)
         lend_data = len(unformat_data)
         if is_undo:
             lend_data -= 3
@@ -170,10 +174,12 @@ class MainWindow(QtWidgets.QMainWindow):
                 try:
                     task_date = QtCore.QDateTime.fromString(l_data[0], self.daetime_format)
                     deadline = QtCore.QDateTime.fromString(l_data[1], self.daetime_format)
-                    describe = l_data[2]
-                    task_type = l_data[3]
-                    task_importance = l_data[4]
-                    is_done = l_data[5]
+                    describe = ' '.join(l_data[2:-3])
+                    # print('describe: ', describe)
+                    # describe = l_data[2]
+                    task_type = l_data[-3]
+                    task_importance = l_data[-2]
+                    is_done = l_data[-1]
                     self.db_tasks[task_date] = [
                         deadline,
                         describe,
@@ -203,7 +209,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 date.addDays(1),
                 'Describe the task',
                 'Work/Project/Home',  # ['Work', 'Project', 'Home'],  type of task
-                '0, ..., 10',  # importance from 0 to 10, 0 - most important
+                '0 ... 10',  # importance from 0 to 10, 0 - most important
                 'No'  # ['No', 'Yes'] is completed
             ]
             self.db_tasks = {
@@ -253,12 +259,168 @@ class MainWindow(QtWidgets.QMainWindow):
                 # setting date text format
                 self.calendarWidget.setDateTextFormat(task_data[0].date(), t_format)
 
-        else:
+            else:
                 # Drop items from up task and save it in down task
                 self.db_down_tasks[ind_date] = db_in.pop(ind_date)
                 self.db_down_tasks[ind_date].append(QtCore.QDate.currentDate())  # append down date
         # print(text_all)
         self.te_tasks.setMarkdown(''.join(text_all))
+
+    def export_import_task(self, is_import=False):
+        """
+        Export or import data to csv format for outlook, Google calendar, Thunderbird or other
+        :return: None
+        """
+        # TODO: set user selection of date-time format
+        print(self.db_tasks)
+        print(self.db_down_tasks)
+        self.update_tasks()
+        print(self.db_tasks)
+        print(self.db_down_tasks)
+        self.display_task(self.db_tasks)
+        print(self.db_tasks)
+        print(self.db_down_tasks)
+        if is_import:
+            # Form csv file in Outlook format with header:
+            # Subject, Start Date, Start Time, End Date, End Time, All day event, Reminder on / off, Reminder Date,
+            # Reminder Time, Categories, Description, Location, Private
+            text_data = 'Subject, Start Date, Start Time, End Date, End Time, All day event, Reminder on / off, ' +\
+                        'Reminder Date, Reminder Time, Categories, Description, Location, Private\n'
+            for k in self.db_tasks:
+                subject = self.db_tasks[k][1] + 'Importance: ' + self.db_tasks[k][3]
+                start_date = k.date().toString("dd/MM/yy")
+                start_time = k.time().toString("HH:mm:ss")
+                end_date = self.db_tasks[k][0].date().toString("dd/MM/yy")
+                end_time = self.db_tasks[k][0].time().toString("HH:mm:ss")
+                all_day_event = 'FALSE'
+                reminder = 'FALSE'
+                rem_date = ''
+                rem_time = ''
+                category = self.db_tasks[k][2]
+                descr = ''
+                location = ''
+                private = 'FALSE'
+                text_temp = ', '.join([
+                    subject,
+                    start_date,
+                    start_time,
+                    end_date,
+                    end_time,
+                    all_day_event,
+                    reminder,
+                    rem_date,
+                    rem_time,
+                    category,
+                    descr,
+                    location,
+                    private
+                ])
+                text_data += text_temp
+                text_data += '\n'
+            print('Import text data line: ', text_data)
+            file_name = self.save_file_dialog()
+            if file_name:
+                with open(file_name + '.csv', 'w') as f:
+                    f.write(text_data)
+        else:
+            # QtCore.QDateTime.fromString('02/05/2021 10:00:00 PM', 'dd/MM/yyyy h:mm:ss AP')
+            #TODO: write clear code for csv import with extra , and \n simbols
+            file_name = self.open_file_name_dialog()
+            print('DB tasks: ', self.db_tasks)
+            print('DB down tasks: ', self.db_down_tasks)
+            if file_name:
+                with open(file_name, 'r') as f:
+                    text_all = f.readlines()
+                    # print(text_all)
+                    clear_strings = []
+                    # print('headers: ', text_all[0])
+                    text_all = text_all[1:]
+                    for i in range(len(text_all)):
+                        text_data = text_all[i].split(',')
+                        if len(text_data) < 13 and len(text_data) > 3 and i != len(text_all)-1:
+                            if len(text_data) + len(text_all[i+1].split(',')) >= 12:
+                                clear_strings.append(text_data + text_all[i+1].split(','))
+                        elif len(text_data) >= 13:
+                            clear_strings.append(text_data)
+                    print(len(clear_strings))
+                    for sep_text in clear_strings:
+                        # print('len: ', len(sep_text))
+                        subject = sep_text[0]
+                        start_date = sep_text[1]
+                        start_time = sep_text[2]
+                        end_date = sep_text[3]
+                        end_time = sep_text[4]
+                        category = 'None'
+
+                        # print(
+                        #     'export line: \n',
+                        #     'subject: ', subject, '\n',
+                        #     'start_date: ', start_date, '\n',
+                        #     'start_time: ', start_time, '\n',
+                        #     'end_date: ', end_date, '\n',
+                        #     'end_time: ', end_time, '\n',
+                        #     'category: ', category, '\n',
+                        # )
+                        init_date_time = QtCore.QDateTime.fromString(
+                            start_date + ' ' + start_time,
+                            'M/dd/yyyy h:mm:ss AP'
+                        )
+                        deadline = QtCore.QDateTime.fromString(
+                            end_date + ' ' + end_time,
+                            'M/dd/yyyy h:mm:ss AP'
+                        )
+                        if init_date_time != QtCore.QDateTime() and deadline != QtCore.QDateTime():
+                            self.db_tasks[init_date_time] = [
+                                deadline,
+                                subject,
+                                category,
+                                '5',
+                                'No'
+                            ]
+        print(len(self.db_tasks))
+        print(self.db_tasks)
+        print(self.db_down_tasks)
+        self.display_task(self.db_tasks)
+
+    def save_file_dialog(self):
+        """
+        Call file save dialog
+        :return: name of the selected file or None
+        """
+        options = QtWidgets.QFileDialog.Options()
+        options |= QtWidgets.QFileDialog.DontUseNativeDialog
+        file_name, _ = QtWidgets.QFileDialog.getSaveFileName(
+            self,
+            "QFileDialog.getSaveFileName()",
+            "",
+            "All Files (*);;CSV Files (*.csv)",
+            options=options
+        )
+        if file_name:
+            print(file_name)
+            return file_name
+        else:
+            return None
+
+    def open_file_name_dialog(self):
+        """
+        Call file open dialog
+        :return: file name or None
+        """
+        options = QtWidgets.QFileDialog.Options()
+        options |= QtWidgets.QFileDialog.DontUseNativeDialog
+        file_name, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            "QFileDialog.getOpenFileName()",
+            "",
+            "All Files (*);;CSV Files (*.csv)",
+            options=options
+        )
+        if file_name:
+            print(file_name)
+            return file_name
+        else:
+            return None
 
     def closeEvent(self, event):
         self.save_dialog()
